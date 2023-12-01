@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import * as gameServices from '../../services/gameService'
 
 export default function GameList() {
+  const[games, setGames] = useState([]);
+
+  useEffect(() => {
+    gameServices.getAll()
+        .then(result => setGames(result));
+  }, []);
+
+  console.log(games);
+
+
   return (
     <section id="catalog-page">
       <h1>All Games</h1>
