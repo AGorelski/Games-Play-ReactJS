@@ -1,18 +1,19 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import * as gameServices from "../../services/gameService"
-import * as commentServices from "../../services/commentService"
+import * as gameServices from "../../services/gameService";
+import * as commentServices from "../../services/commentService";
 
 export default function Details() {
   const { gameId } = useParams();
 
-  const[game, setGame] = useState({});
-  const [comments, setComments] = useState({});
+  const [game, setGame] = useState({});
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    gameServices.getOne(gameId)
-        .then(setGame);
+    gameServices.getOne(gameId).then(setGame);
+
+    commentServices.getAll(gameId).then(setComments);
   }, [gameId]);
 
   const addCommentHandler = async (e) => {
@@ -22,15 +23,13 @@ export default function Details() {
 
     const newComment = await commentServices.create(
       gameId,
-      formData.get('username'),
-      formData.get('comment')
+      formData.get("username"),
+      formData.get("comment")
     );
 
-      console.log(newComment);
+    setComments(state => [...state, newComment]);
 
-  }
-
-
+  };
 
   return (
     <section id="game-details">
@@ -42,21 +41,21 @@ export default function Details() {
           <span className="levels">MaxLevel: {game.maxLevel}</span>
           <p className="type">{game.category}</p>
         </div>
-        <p className="text">
-          {game.summary}
-        </p>
-      
+        <p className="text">{game.summary}</p>
+
         <div className="details-comments">
           <h2>Comments:</h2>
           <ul>
-            <li className="comment">
-              <p>Content: I rate this one quite highly.</p>
-            </li>
-            <li className="comment">
-              <p>Content: The best game.</p>
-            </li>
+              {comments.map(({ _id, username, text }) => (
+                  <li key={_id} className="comment">
+                      <p>
+                        {username}: {text}
+                      </p>
+                  </li>
+              ))}
           </ul>
-          <p className="no-comment">No comments.</p>
+
+          {comments.length === 0 && <p className="no-comment">No comments.</p>}
         </div>
         {/* <div className="buttons">
           <a href="#" className="button">
@@ -82,7 +81,7 @@ export default function Details() {
             defaultValue="Add Comment"
           />
         </form>
-      </article>  
+      </article>
     </section>
   );
 }
