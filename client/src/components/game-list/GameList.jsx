@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import * as gameServices from '../../services/gameService'
 import GameListItem from "./game-list-item/GameListItem";
 
@@ -10,9 +10,6 @@ export default function GameList() {
     gameServices.getAll()
         .then(result => setGames(result));
   }, []);
-
-  console.log(games);
-
 
   return (
     <section id="catalog-page">

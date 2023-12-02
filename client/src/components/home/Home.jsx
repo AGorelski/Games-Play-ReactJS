@@ -24,7 +24,7 @@ export default function Home() {
             <span>☆</span>
           </div>
           <div className="data-buttons">
-            <Link to="/details" className="btn details-btn">
+            <Link to="/games/:gameId" className="btn details-btn">
               Details
             </Link>
           </div>
@@ -42,7 +42,7 @@ export default function Home() {
             <span>☆</span>
           </div>
           <div className="data-buttons">
-            <Link to="/details" className="btn details-btn">
+            <Link to="/games/:gameId" className="btn details-btn">
               Details
             </Link>
           </div>
@@ -60,7 +60,7 @@ export default function Home() {
             <span>☆</span>
           </div>
           <div className="data-buttons">
-            <Link to="/details" className="btn details-btn">
+            <Link to="/games/:gameId" className="btn details-btn">
               Details
             </Link>
           </div>
